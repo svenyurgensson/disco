@@ -1,0 +1,68 @@
+base_url: http://localhost
+port: 4567
+version_api: v1
+
+title: Weather Service API
+subtitle: for earthtv.com
+description: "Very long and
+  multiline string"
+footer: (c) Batenko Yury 2013..2015
+original:
+  base_url: http://weather.earthtv.com
+  port:
+
+require:
+run:
+  before_all:
+  after_all:
+  before_each:
+  after_each:
+headers:
+  exclude: [x-webmachine-trace-id]
+
+endpoints:
+  ping:
+    description: Base point for requesting stats
+    params: Not expecting any parameters
+    methods:
+      get:
+        -
+          headers:
+            accept: application/json
+          params:
+            one: 22
+            duo: Expecting the World!
+            trua: 20-03-2016
+          expect:
+            code: 200
+            content-type: application/json;charset=utf-8
+        -
+          headers:
+            accept: text/plain
+          expect:
+            code: 200
+            content-type: text/plain
+        -
+          headers:
+            accept: application/xml
+          expect:
+            code: 200
+            content-type: application/xml;charset=utf-8
+        -
+          headers:
+            accept: text/csv
+          expect:
+            code: 200
+            content-type: text/plain
+
+  info:
+    description: Info abouth whole system
+    params: Not expecting any parameters
+    methods:
+      get:
+        -
+          headers:
+            accept: application/json
+          expect:
+            code: 200
+            content-type: application/json;charset=utf-8

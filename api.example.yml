@@ -1,0 +1,79 @@
+base_url: http://localhost
+port: 3000
+version_api: v1
+
+title: Weather Service API
+subtitle: for earthtv.com
+description: "Very long and
+  multiline string"
+footer: (c) Batenko Yury 2013..2015
+original:
+  base_url:
+  port:
+
+require:
+run:
+  before_all:
+  after_all:
+  before_each:
+  after_each:
+
+endpoints:
+  ping:
+    description: Base point for requesting stats
+    params: Not expecting any parameters
+    methods:
+      get:
+        -
+          headers:
+            content-type: application/json
+            accepts: application/json
+          expect:
+            code: 200
+            content-type: application/json
+        -
+          headers:
+            accepts: application/xml
+          expect:
+            code: 406
+
+
+      post:
+          -
+            headers:
+              content-type: application/json
+              accepts: application/json
+            payload:
+              "something wrong"
+            expect:
+              code: 401
+            description:
+              Because of issues of payload format here we dieing
+          -
+            headers:
+              content-type: binary/octet
+            payload:
+              file: tmp/image.jpg
+            expect:
+              code: 201
+              headers:
+                url: /v1/base
+
+  weather:
+    description: Base point for requesting weather
+    params:
+      lat: "Lattitude"
+      long: "Logtitude"
+      radius: "Radius (in km)"
+      sort: "Sorting results, (default by geo distance)"
+      city: "City of interest"
+      station_name: "Filterr by station name"
+    methods:
+      get:
+        -
+          headers:
+            content-type: application/json
+            accepts: application/json
+          expect:
+            code: 200
+            content-type: application/json
